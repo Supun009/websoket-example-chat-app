@@ -40,22 +40,37 @@ sendButton.addEventListener('click', (e) => {
     
     // Get the message from the input field
     const message = messageInput.value;
+
+    if (message == '') {
+        return
+    }
     
     // Emit the message to the server
     socket.emit('message-sent', message);
 
-    appendMessage(`You: ${message}`);
+    appendMyMessage(message);
     
     // Clear the input field
     messageInput.value = '';
 });
 
-function appendMessage(message) {
+function appendMyMessage(message) {
     // Create a new div element for the message
+    const messagecard = document.createElement('div');
     const messageElement = document.createElement('div');
-    messageElement.classList.add('alert', 'alert-primary', 'mt-2', 'col-lg-6'); // Add Bootstrap styling
+    messagecard.classList.add('row', 'justify-content-end'); 
+    messageElement.classList.add( 'card', 'mt-2', 'col-auto' );
     messageElement.innerText = message;
+    messagecard.append(messageElement)
+    messageContainer.append(messagecard);
+}
 
-    // Append the message element to the container
-    messageContainer.append(messageElement);
+function appendMessage(message) {
+    const messagecard = document.createElement('div');
+    const messageElement = document.createElement('div');
+    messagecard.classList.add('row', 'justify-content-start'); 
+    messageElement.classList.add( 'card', 'mt-2', 'col-auto' );
+    messageElement.innerText = message;
+    messagecard.append(messageElement)
+    messageContainer.append(messagecard);
 }
